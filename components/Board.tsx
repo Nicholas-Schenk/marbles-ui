@@ -1,34 +1,35 @@
-import { Box, Stack } from "@mui/material";
+'use client'
+import { Box, Stack, Typography } from "@mui/material";
 import Tile from "./Tile";
+import React, { useEffect } from "react";
+import {useSelector} from "react-redux"
+import { boardAtom, setSelectedTileAtom } from "../store/features/board/board";
+import { ITile } from "../types/interfaces";
+import Dice from "./Dice";
+import { useAtom } from "jotai";
 
 export default function Board(){
-    const board = [
-        ["H2", "X",  "H2", "X",  "X",  "SH",  "S", "S",  "S", "S", "X",  "X",  "H3", "X",  "H3"],
-        ["X",  "H2", "X",  "X",  "X",  "S",  "X", "G2", "X", "S",  "X",  "X",  "X",  "H3", "X"],
-        ["H2", "X",  "H2", "X",  "X",  "S",  "X", "G2", "X", "S",  "X",  "X",  "H3", "X",  "H3"],
-        ["X",  "X",  "X",  "X",  "X",  "S",  "X", "G2", "X", "S",  "X",  "X",  "X",  "X",  "X"],
-        ["X",  "X",  "X",  "X",  "X",  "S",  "X", "G2", "X", "S",  "X",  "X",  "X",  "X",  "X"],
-        ["S", "S",  "S",  "S",  "S",  "SC", "X", "G2", "X", "SC", "S",  "S",  "S",  "S",  "SH"],
-        ["S",  "X",  "X",  "X",  "X",  "X",  "X", "X",  "X", "X",  "X",  "X",  "X",  "X",  "S"],
-        ["S",  "G1", "G1", "G1", "G1", "G1", "X", "M",  "X", "G3", "G3", "G3", "G3", "G3", "S"],
-        ["S",  "X",  "X",  "X",  "X",  "X",  "X", "X",  "X", "X",  "X",  "X",  "X",  "X",  "S"],
-        ["SH",  "S",  "S",  "S",  "S",  "SC", "X", "G4", "X", "SC", "S",  "S",  "S",  "S",  "S"],
-        ["X",  "X",  "X",  "X",  "X",  "S",  "X", "G4", "X", "S",  "X",  "X",  "X",  "X",  "X"],
-        ["X",  "X",  "X",  "X",  "X",  "S",  "X", "G4", "X", "S",  "X",  "X",  "X",  "X",  "X"],
-        ["H1", "X",  "H1", "X",  "X",  "S",  "X", "G4", "X", "S",  "X",  "X",  "H4", "X",  "H4"],
-        ["X",  "H1", "X",  "X",  "X",  "S",  "X", "G4", "X", "S",  "X",  "X",  "X",  "H4", "X"],
-        ["H1", "X",  "H1", "X",  "X",  "S", "S", "S",  "S", "SH",  "X",  "X",  "H4", "X",  "H4"],
-    ]
 
+
+    const [board, setBoard] = useAtom(boardAtom)
+    const [selectedTile, setSelectedTile] = useAtom(setSelectedTileAtom)
+    console.log(board);
+
+
+    useEffect(() => {console.log("test")}, [])
     return (
         <Box>
             <Stack direction={'row'}>
-            {board.map(row => {
+            {board.board?.map((row, i1) => {
 
-                return <Stack direction={'column'}>{
-                    (row.map((tile) => <Tile type={tile}/>))} </Stack>
+                return <Stack key={`${i1}`}direction={'column'}>{
+                    (row.map((data, i2) => <Tile key={`${i1}-${i2}`} boxkey={`${i1}-${i2}`} data={data}/>))} </Stack>
             })}
             </Stack>
+
+            <Dice/>
+
+            <Typography>Selected Tile is {selectedTile?.id}</Typography>
         </Box>
     )
 }
