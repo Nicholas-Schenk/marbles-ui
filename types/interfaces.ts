@@ -5,11 +5,16 @@ export interface ITile {
     borderColor?: TileColor; 
     occupyingMarble ?: IMarble;
     type : TileType;
+    nextTileDirection ?: Record<string, TileDirection>, 
     nextTile?: Record<string, ITile[]>;
 }
 
+export enum TileDirection {
+    "ArrowRight", "ArrowLeft", "ArrowUp", "ArrowDown"
+}
+
 export enum TileColor {
-    "blue", "red", "yellow", "green", "gray", "black", "white", "light blue"
+    "blue", "red", "yellow", "green", "gray", "black", "white", "lightblue", "lightgreen", "lightcoral", "goldenrod"
 }
 
 export enum TileType {
@@ -26,8 +31,13 @@ export interface IMarble {
 }
 
 export interface Dice {
-    die1: number
-    die2: number
+    die1: Die
+    die2: Die
+}
+
+export interface Die {
+    value: number;
+    remainingValue: number;
 }
 
 
@@ -35,5 +45,10 @@ export interface Dice {
 export interface BoardState {
   board: ITile[][]
   selectedTile?: ITile
-  dice: Dice
+  turn: {
+    dice?: Dice,
+    selectedDie ?: "1" | "2";
+    canRollDice: boolean;
+    userId: string
+  }
 }

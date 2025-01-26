@@ -6,7 +6,6 @@ import { setSelectedTileAtom } from "@/store/features/board/board";
 import { useAtom } from "jotai";
 
 export default function Tile({data, boxkey}: {data: ITile, boxkey: string}){
-    console.log(data.nextTile)
     const getPlayerColorById = (id: string) => {
         if(id === "1"){
             return "red";
@@ -48,8 +47,8 @@ export default function Tile({data, boxkey}: {data: ITile, boxkey: string}){
     }
 
     return (
-        <Box onClick = {() => setTile()}key={"box" + boxkey}sx={{width:'20px', height: '20px', border: data.borderColor?.toString(), backgroundColor: TileColor[data.color]}}>
-            {data.nextTile && data.nextTile["4"] ? data.nextTile["4"][0].id : "n"}
+        <Box onClick = {() => setTile()}key={"box" + boxkey}sx={{width:'20px', height: '20px', border: `${data.borderColor ? '2px': '1px'} solid ${data.borderColor ? TileColor[data.borderColor]: "black"}`, backgroundColor: data.occupyingMarble ? TileColor[data.occupyingMarble.color] : TileColor[data.color]}}>
+            {data.id}
         </Box>
     )
 }
